@@ -14,11 +14,17 @@ Trên frame 000011, lệch yaw 1° làm tỉ lệ điểm LiDAR của các vật
 
 ## 2. Evidence
 
-CP2 demo: LiDAR points projected onto camera images at three KITTI ranges.
+| Frame / class | Yaw 0° | 0.5° | 1° | 2° | 3° |
+|---|---:|---:|---:|---:|---:|
+| 000008 / Car | 99.63% | 99.57% | 98.62% | 94.81% | 90.98% |
+| 000011 / tất cả class | 99.45% | 91.88% | 77.44% | 45.44% | 21.23% |
+| 000049 / tất cả class | 99.25% | 97.46% | 93.50% | 84.74% | 74.32% |
 
-![near frame 000019](../results/figures/overlay_000019_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png)
-![middle frame 000011](../results/figures/overlay_000011_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png)
-![far frame 000004](../results/figures/overlay_000004_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png)
+![Yaw sweep theo class](../results/figures/yaw_sweep.png)
+
+Ảnh demo chiếu điểm LiDAR lên camera ở ba khoảng cách: [gần, frame 000019](../results/figures/overlay_000019_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png), [giữa, frame 000011](../results/figures/overlay_000011_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png), [xa, frame 000004](../results/figures/overlay_000004_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png).
+
+CSV `results/yaw_perturb_sweep.csv` có 70 dòng, chia theo frame, yaw, class và khoảng cách. Sweep deterministic, chạy lại cho cùng kết quả. `hit_ratio = hits / object_points`; mẫu số là điểm thuộc 3D box đồng thời chiếu vào ảnh, nên thay đổi theo yaw (frame 000011: 725 điểm ở 0° và 656 ở 1°).
 
 ## 3. Failure case
 
