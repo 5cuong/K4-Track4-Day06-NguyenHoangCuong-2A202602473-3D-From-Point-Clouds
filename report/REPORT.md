@@ -28,11 +28,13 @@ CSV `results/yaw_perturb_sweep.csv` có 70 dòng, chia theo frame, yaw, class v�
 
 ## 3. Failure case
 
-Nêu khi nào hệ thống hoặc phương pháp fail, vì sao fail, và liên hệ tới lớp nào trong 6 lớp debug: I/O, Geometry, Time, Preprocess, Model, Metric.
+![Yaw 2 độ làm điểm của người đi bộ lệch khỏi box](../results/figures/fail_01_yaw_2deg_pedestrian.png)
 
-![failure](../results/figures/fail_[ĐIỀN].png)
-
-[ĐIỀN]
+- **Trường hợp:** KITTI frame 000011, người đi bộ #3 ở khoảng cách 34.2 m, lệch yaw 2°.
+- **Quan sát:** điểm nằm trong 2D box giảm từ 40/40 (100%) xuống 0/40 (0%); tỉ lệ tổng các class trong frame giảm từ 99.45% xuống 45.44%.
+- **Nguyên nhân:** phép quay extrinsic làm vị trí chiếu trượt ngang; ở khoảng cách này người đi bộ chỉ chiếm một vùng ảnh hẹp.
+- **Lớp debug:** Geometry — extrinsic LiDAR-camera không còn khớp.
+- **Phát hiện khi chạy thật:** theo dõi tỉ lệ điểm chiếu khớp với vùng phát hiện camera theo class/khoảng cách; cảnh báo nếu dưới 90% trong ba cửa sổ kiểm tra liên tiếp.
 
 ## 4. Khuyến nghị nếu triển khai thật
 
