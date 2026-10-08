@@ -90,8 +90,8 @@ def run_one(frame: str, data_root: str, yaw_deg: float) -> list[dict]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Measure KITTI LiDAR-to-2D-box hit ratio under yaw error")
-    parser.add_argument("--data-root", default="data/kitti_mini", help="KITTI dataset directory")
+    parser = argparse.ArgumentParser(description="Measure KITTI or nuScenes LiDAR-to-2D-box hit ratio under yaw error")
+    parser.add_argument("--data-root", default="data/kitti_mini", help="KITTI or nuScenes dataset directory")
     parser.add_argument("--frames", nargs="+", default=["000008", "000011", "000049"], help="Frame IDs")
     parser.add_argument("--yaw-levels", nargs="+", type=float, default=[0, 0.5, 1, 2, 3], help="Yaw errors in degrees")
     parser.add_argument("--out", default="results/yaw_perturb_sweep.csv", help="Output CSV path")

@@ -67,6 +67,21 @@ def main() -> None:
         pdf.savefig(fig, bbox_inches="tight")
         plt.close(fig)
 
+        fig = _page("Bonus evidence: stress, latency, and dataset transfer")
+        left = fig.add_axes([0.035, 0.27, 0.46, 0.48])
+        left.imshow(mpimg.imread(ROOT / "results/figures/degradation_stress.png"))
+        left.axis("off")
+        right = fig.add_axes([0.505, 0.27, 0.46, 0.48])
+        right.imshow(mpimg.imread(ROOT / "results/figures/bonus_yaw_dataset_compare.png"))
+        right.axis("off")
+        fig.text(0.07, 0.16, "B2 · dropout + Gaussian noise", fontsize=13, weight="bold", color="#2463a5")
+        fig.text(0.07, 0.10, "Baseline 99.45%; 0.10 m noise 95.08%.", fontsize=12)
+        fig.text(0.54, 0.16, "B5 · same yaw sweep, two datasets", fontsize=13, weight="bold", color="#2463a5")
+        fig.text(0.54, 0.10, "At 3°: KITTI 79.73%; nuScenes 75.08%.", fontsize=12)
+        fig.text(0.07, 0.035, "B3 · 20 timed runs after warm-up: p50 15.54 ms, p95 17.14 ms · Core i9-13900H · 15.6 GB RAM", fontsize=11, color="#526579")
+        pdf.savefig(fig, bbox_inches="tight")
+        plt.close(fig)
+
     print(f"-> {OUT}")
 
 

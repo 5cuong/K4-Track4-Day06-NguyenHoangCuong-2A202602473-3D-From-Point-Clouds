@@ -1,0 +1,8 @@
+dataset,frame,corruption,level,seed,objects,remaining_points,object_points_in_image,hits_in_2d_box,hit_ratio
+kitti_mini,000011,baseline,0.0,,6,3766,725,721,0.9945
+kitti_mini,000011,random_dropout,0.7,0,6,2626,481,478,0.9938
+kitti_mini,000011,random_dropout,0.5,0,6,1884,330,327,0.9909
+kitti_mini,000011,random_dropout,0.3,0,6,1106,197,196,0.9949
+kitti_mini,000011,gaussian_noise,0.02,0,6,3766,726,719,0.9904
+kitti_mini,000011,gaussian_noise,0.05,0,6,3766,715,700,0.979
+kitti_mini,000011,gaussian_noise,0.1,0,6,3766,711,676,0.9508

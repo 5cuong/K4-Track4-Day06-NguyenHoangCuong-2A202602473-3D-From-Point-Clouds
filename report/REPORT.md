@@ -5,8 +5,8 @@
 - **Lớp:** AI20K-T4
 - **Link repo:** https://github.com/5cuong/K4-Track4-Day06-NguyenHoangCuong-2A202602473-3D-From-Point-Clouds
 - **Topic:** A — Kiểm tra calibration LiDAR-camera bằng projection
-- **Dataset:** data/kitti_mini
-- **Các frame đã dùng:** 000008, 000011, 000049; demo khoảng cách: 000019, 000011, 000004
+- **Dataset:** data/kitti_mini; B5: data/nuscenes_mini_subset
+- **Các frame đã dùng:** KITTI: 000008, 000011, 000049; demo: 000019, 000011, 000004; nuScenes B5: scene-0103_010, scene-0103_020, scene-1094_010
 
 ## 1. Claim
 
@@ -28,6 +28,26 @@ Trên frame 000011, lệch yaw 1° làm tỉ lệ điểm LiDAR của các vật
 
 CSV `results/yaw_perturb_sweep.csv` có 70 dòng, chia theo frame, yaw, class và khoảng cách. Sweep deterministic, chạy lại cho cùng kết quả. `hit_ratio = hits / object_points`; mẫu số là điểm thuộc 3D box đồng thời chiếu vào ảnh, nên thay đổi theo yaw (frame 000011: 725 điểm ở 0° và 656 ở 1°).
 
+### Bonus
+
+**[B2] Stress test:** trên frame 000011, chạy random dropout (giữ 70/50/30%, seed 0) và Gaussian noise (σ = 0.02/0.05/0.10 m). Tỉ lệ hit baseline là 99.45%; noise 0.10 m còn 95.08%. Dropout 30% giữ hit ratio 99.49% nhưng số điểm in-image giảm từ 725 xuống 197, nên cần đọc cả hai chỉ số.
+
+![B2 stress test](../results/figures/degradation_stress.png)
+
+**[B3] Latency:** đo projection trên frame 000011 21 lần, bỏ warm-up đầu và lấy 20 lần còn lại: p50 = 15.54 ms, p95 = 17.14 ms. Phần cứng: Intel Core i9-13900H, RAM 15.6 GB; đo CPU, không dùng GPU. Dữ liệu từng lần chạy ở `results/latency_projection.csv`.
+
+**[B4] Tool dùng lại:** `src/exp_yaw_sweep.py` có argparse, mặc định hợp lý và `--help`; có thể đổi dataset, frame, mức yaw và đường dẫn CSV. Kiểm tra bằng `python -m src.exp_yaw_sweep --help`.
+
+**[B5] Hai dataset thật:** cùng mức yaw trên KITTI (000008, 000011, 000049) và nuScenes (scene-0103_010, scene-0103_020, scene-1094_010); metric gộp có trọng số theo số điểm.
+
+| Dataset | 0° | 1° | 2° | 3° |
+|---|---:|---:|---:|---:|
+| KITTI (3 frame) | 99.45% | 95.00% | 87.43% | 79.73% |
+| nuScenes (3 frame) | 100.00% | 95.34% | 85.06% | 75.08% |
+
+![B5 yaw comparison](../results/figures/bonus_yaw_dataset_compare.png)
+
+nuScenes có LiDAR 32 beam, khoảng 34.7 nghìn điểm/frame và ảnh 1600×900; KITTI có 64 beam, khoảng 108–126 nghìn điểm/frame và ảnh 1242×375. Tỉ lệ theo yaw khá gần, nhưng scene/nhãn không ghép cặp nên không thể quy phần chênh lệch cho riêng sensor; nuScenes được dùng ego-motion compensation mặc định.
 ## 3. Failure case
 
 ![Yaw 2 độ làm điểm của người đi bộ lệch khỏi box](../results/figures/fail_01_yaw_2deg_pedestrian.png)
@@ -63,7 +83,13 @@ python -m starter.projection --data-root data/kitti_mini --frame 000019
 python -m starter.projection --data-root data/kitti_mini --frame 000011
 python -m starter.projection --data-root data/kitti_mini --frame 000004
 python -m starter.projection --data-root data/nuscenes_mini_subset --frame scene-0103_010
+python -m src.exp_yaw_sweep --help
 python -m src.exp_yaw_sweep --data-root data/kitti_mini --frames 000008 000011 000049
+python -m src.exp_degradation --data-root data/kitti_mini --frame 000011 --seed 0
+python -m src.bench_projection_latency --data-root data/kitti_mini --frame 000011 --runs 21
+python -m src.exp_yaw_sweep --data-root data/kitti_mini --frames 000008 000011 000049 --yaw-levels 0 1 2 3 --out results/bonus_kitti_yaw.csv
+python -m src.exp_yaw_sweep --data-root data/nuscenes_mini_subset --frames scene-0103_010 scene-0103_020 scene-1094_010 --yaw-levels 0 1 2 3 --out results/bonus_nusc_yaw.csv
+python -m src.plot_bonus_yaw_compare
 python -m src.plot_yaw_sweep
 python -m src.make_failure_figure
 python -m src.make_demo_slides
@@ -74,4 +100,4 @@ python tools/check_submission.py
 
 | Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
 |---|---|---|
-| OpenAI Codex | Đọc hướng dẫn, cài hai hàm TODO projection, viết script benchmark/biểu đồ/ảnh failure và biên tập report | Chạy `src.test_projection`, đối chiếu ba số `inside_image` với guide, kiểm tra số liệu CSV và chạy lại sweep cho kết quả giống hệt |
+| OpenAI Codex | Đọc hướng dẫn, cài projection, viết benchmark bonus/biểu đồ/ảnh failure/slides và biên tập report | Chạy `src.test_projection`, đối chiếu ba số `inside_image` với guide, kiểm tra số liệu CSV và chạy lại sweep cho kết quả giống hệt, kiểm tra stress test và thống kê latency |
