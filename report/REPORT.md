@@ -1,4 +1,4 @@
-# Báo cáo Day 6: Độ nhạy của projection với lệch yaw
+﻿# Báo cáo Day 6: Độ nhạy của projection với lệch yaw
 
 - **Họ tên:** Nguyễn Hoàng Cường
 - **MSSV:** 2A202602473
@@ -98,6 +98,6 @@ python tools/check_submission.py
 
 ## 6. Khai báo sử dụng AI
 
-| Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
-|---|---|---|
-| OpenAI Codex | Đọc hướng dẫn, cài projection, viết benchmark bonus/biểu đồ/ảnh failure/slides và biên tập report | Chạy `src.test_projection`, đối chiếu ba số `inside_image` với guide, kiểm tra số liệu CSV và chạy lại sweep cho kết quả giống hệt, kiểm tra stress test và thống kê latency |
+| Công cụ | Dùng cho việc gì                                                    | Đã kiểm chứng thế nào                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|---|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| OpenAI Codex | Đọc và giải thích hướng dẫn lab; hỗ trợ chỉnh hai hàm projection và  xây dựng script thí nghiệm, biểu đồ, ảnh failure.| Chạy self-test projection; kiểm tra checksum KITTI/nuScenes; chạy lại yaw sweep và so sánh CSV; chạy tools/check_submission.py. Chọn Topic A và dữ liệu/frame; cài và kiểm tra môi trường, dữ liệu; triển khai phép chiếu LiDAR lên ảnh và tạo overlay; chạy sweep yaw và stress test dropout/nhiễu; đo latency và so sánh KITTI với nuScenes; phân tích failure case; viết claim, evidence, khuyến nghị triển khai và hướng dẫn chạy lại. Học viên chịu trách nhiệm hiểu, rà soát và trình bày các kết quả đã nộp. |
