@@ -14,13 +14,11 @@ Trên frame 000011, lệch yaw 1° làm tỉ lệ điểm LiDAR của các vật
 
 ## 2. Evidence
 
-Bảng hoặc plot số liệu, kèm ảnh/video demo. Ghi rõ đường dẫn file trong `results/`.
+CP2 demo: LiDAR points projected onto camera images at three KITTI ranges.
 
-| Cấu hình / mức perturb | Metric 1 | Metric 2 | Ghi chú |
-|---|---|---|---|
-| [ĐIỀN] | | | |
-
-![demo](../results/figures/[ĐIỀN].png)
+![near frame 000019](../results/figures/overlay_000019_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png)
+![middle frame 000011](../results/figures/overlay_000011_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png)
+![far frame 000004](../results/figures/overlay_000004_r0.0_p0.0_y0.0_t0.0_0.0_0.0.png)
 
 ## 3. Failure case
 
